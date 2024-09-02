@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@splinetool/loader": "^1.9.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14",
+    "stripe": "^16.9.0"
+  }
+}
