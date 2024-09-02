@@ -10,10 +10,16 @@ const fs = require("fs");
 const path = require("path");
 
 
+const browser = await puppeteer.launch({
+  headless: true, // Ensure Puppeteer is running in headless mode
+});
+
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+
 
 app.get("/", async (req, res) => {
   res.json({ message: "backend is running" });
