@@ -180,7 +180,7 @@ app.post("/charge", async (req, res) => {
     <div class="box-invoice-block">
         <div class="box-invoice">
             <div class="inner-invoice">
-                <img class="privaceLogo" src="assets/imgs/privaceLogo.jpeg" alt="Privace">
+                <img class="privaceLogo" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
                 <div class="infoDate">
                     <p>Invoice date: 22 April 2022</p>
                 </div>
