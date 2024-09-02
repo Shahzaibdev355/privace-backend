@@ -63,31 +63,36 @@ app.post("/charge", async (req, res) => {
       `;
 
     // Send the receipt via email
-     let transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
         user: "shahzaibsheikh366@gmail.com", // Replace with your email
         pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
       },
-        logger: true,  // Enable logging
-        debug: true,   // Enable debug output
+      logger: true, // Enable logging
+      debug: true, // Enable debug output
     });
 
-    const mailOptions = {
+    // const mailOptions = {
+    //   from: "shahzaibsheikh366@gmail.com",
+    //   to: formData.email,
+    //   subject: "Your Payment Receipt",
+    //   html: receiptHtml, // You can also use 'text' for plain text emails
+    // };
+
+
+
+    // The following line must be inside an async function
+    const info = await transporter.sendMail({
       from: "shahzaibsheikh366@gmail.com",
       to: formData.email,
       subject: "Your Payment Receipt",
-      html: receiptHtml, // You can also use 'text' for plain text emails
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        try {
-          const info = await transporter.sendMail(mailOptions);
-          console.log("Receipt sent: " + info.response);
-        } catch (error) {
-          console.error("Error sending email:", error);
-        }
+      html: receiptHtml,
     });
+
+
+
+    console.log("Receipt sent: " + info.response);
 
     res.json({ success: true, charge });
   } catch (error) {
