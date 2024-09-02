@@ -63,18 +63,16 @@ app.post("/charge", async (req, res) => {
       `;
 
     // Send the receipt via email
-    let transporter = nodemailer.createTransport({
-      host: "smtpout.secureserver.net", // Replace with your domain's SMTP server
-      port: 465, // You can use 465 for SSL or 587 for TLS
-      secure: true, // Use true for 465, false for other ports
+     let transporter = nodemailer.createTransport({
+      service: "Gmail",
       auth: {
-        user: "ask@privacelimo.com", // Replace with your domain email
-        pass: "Privace-3797", // Replace with your email password
+        user: "shahzaibsheikh366@gmail.com", // Replace with your email
+        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
       },
     });
 
     const mailOptions = {
-      from: "ask@privacelimo.com",
+      from: "shahzaibsheikh366@gmail.com",
       to: formData.email,
       subject: "Your Payment Receipt",
       html: receiptHtml, // You can also use 'text' for plain text emails
