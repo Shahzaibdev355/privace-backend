@@ -181,33 +181,37 @@ app.post("/charge", async (req, res) => {
         <div class="box-invoice">
             <div class="inner-invoice">
                 <img class="privaceLogo" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
-                <div class="infoDate">
-                    <p>Invoice date: 22 April 2022</p>
-                </div>
-                <div class="informationDiv">
-                    <h3 class="infoHeadingh3">Booking Reference Number #</h3>
-                    <p class="infoPara">0043128641</p>
-                </div>
-                <div class="informationDiv">
-                    <h3 class="infoHeadingh3">Name:</h3>
-                    <p class="infoPara">John Doe</p>
-                </div>
-                <div class="informationDiv">
-                    <h3 class="infoHeadingh3">Email:</h3>
-                    <p class="infoPara">JohnDoe@gmail.com</p>
-                </div>
-                <div class="informationDiv">
-                    <h3 class="infoHeadingh3">Phone No:</h3>
-                    <p class="infoPara">11111</p>
-                </div>
-                <div class="informationDiv">
-                    <h3 class="infoHeadingh3">Billing Address:</h3>
-                    <p class="infoPara">329 Queensberry Street, North Melbourne VIC 3051, Australia.</p>
-                </div>
-                <div class="paymentDiv">
-                    <h2 class="infoHeadingh3">Total Payment</h2>
-                    <h5 class="infoHeadingh5">(S$) 200</h5>
-                </div>
+                 <div class="infoDate">
+                            <p class="text-grey text-14">Invoice date:</p>
+                            <p class="info-p">${new Date().toLocaleDateString()}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="heading-24-medium color-text">Booking Reference Number #</h3>
+                            <p class="info-p">${formData.bookrefno}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Name:</h3>
+                            <p class="infoParamb-5">${formData.fullname} ${formData.lastname}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Email:</h3>
+                            <p class="infoParamb-5">${formData.email}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Phone No:</h3>
+                            <p class="infoParamb-5">${formData.phone}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Billing Address:</h3>
+                            <p ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}
+                            </p>
+                        </div>
+                        <div class="paymentDiv" style="">
+                            <h2 class="text-18-medium color-text mb-">Total Payment</h2>
+                            
+                                <h5 class="infoHeadingh5">${amount}</h5>
+                        </div>
+               
                 <div class="bottomInvoice">
                     <a href="https://www.abc.com">www.abc.com</a> | 
                     <a href="mailto:ask@privacelimo.com">ask@privacelimo.com</a> | 
