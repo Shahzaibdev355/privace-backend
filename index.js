@@ -53,20 +53,31 @@ app.post("/charge", async (req, res) => {
     // Generate a custom receipt (HTML)
     const receiptHtml = `
       <!DOCTYPE html>
-      <html lang="en">
+      <html>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-        <style>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <style>
         body {
             margin: 0px;
             padding: 0px;
+           
+        }
+
+
+        .box-invoice-block{
             width: 100%;
             background-color: #F0FBF7 !important;
             font-family: "Roboto", sans-serif;
             font-weight: 300;
-  font-style: normal;
+            font-style: normal;
+
+            padding-top: 70px!important;
+            padding-bottom: 70px!important;
         }
 
 
@@ -81,14 +92,13 @@ app.post("/charge", async (req, res) => {
         }
 
         .box-invoice {
-            background-color: #ffffff;
-            box-shadow: 0px 0px 35px rgba(181, 181, 195, 0.15);
-            border-radius: 6px;
+            background-color: #ffffff!important;
+            box-shadow: 0px 0px 35px rgba(181, 181, 195, 0.15)!important;
+            border-radius: 6px!important;
             position: relative;
-            width: 70%;
-            margin: auto;
-            margin-top: 70px;
-            margin-bottom: 70px;
+            width: 70%!important;
+            margin: auto!important;
+           
         }
 
         .inner-invoice {
@@ -96,138 +106,128 @@ app.post("/charge", async (req, res) => {
 
         }
 
-        .privace-logo {
-            width: 35%;
-            border-radius: 10px;
-            margin: auto;
-            margin-bottom: 30px;
+        .privaceLogo {
+            width: 35%!important;
+            border-radius: 10px!important;
+            margin: auto!important;
+            margin-bottom: 30px!important;
         }
 
-        .info-date {
+        .infoDate {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: space-between!important;
             margin-top: 30px;
             margin-bottom: 50px;
         }
 
-        .info-div {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+        .informationDiv {
+            display: flex!important;
+            flex-direction: row!important;
+            justify-content: space-between!important;
 
-            margin-bottom: 30px;
+            margin-bottom: 30px!important;
         }
 
-        .payment-div {
+        .paymentDiv {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: space-between!important;
             background-color: #F0FBF7;
             padding: 20px;
             margin-bottom: 30px;
         }
 
-        .bottom-invoice {
+        .bottomInvoice {
             margin-top: 70px;
             display: flex;
             flex-direction: row;
-            justify-content: space-evenly;
+            justify-content: space-evenly!important;
         }
 
 
-        h3{
+        .infoHeadingh3 {
             font-size: 16px;
         }
 
-        p{
+        .infoPara{
             font-size: 14px;
             font-weight: 500;
         }
 
-        h5{
+        .infoHeadingh5 {
             font-size: 20px;
         }
 
-        a{
+        a {
             color: black;
             font-weight: 500;
             text-decoration: none;
         }
 
         @media (max-width: 768px) {
-            .info-div {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            .informationDiv {
+                display: flex;
+                flex-direction: column!important;
+                justify-content: space-between;
 
-            margin-bottom: 30px;
-        }
+                margin-bottom: 30px;
+            }
         }
     </style>
       </head>
       <body>
-        <section class="section bg-3 box-invoice-block">
-          <div class="box-invoice">
+         <section class="section bg-3 box-invoice-block">
+        <div class="box-invoice">
             <div class="inner-invoice">
-              <div class="d-flex invoice-top">
-                <div class="invoice-left">
-                  <div class="" style="display: flex;">
-                    <img class="mb-65 privace-logo" src="https://example.com/path/to/logo.jpg" alt="Privace">
-                  </div>
-                  <div class="info-date">
-                    <p class="text-grey text-14">Invoice date:</p>
-                    <p class="text-16-medium color-text">${new Date().toLocaleDateString()}</p>
-                  </div>
-                  <div class="info-div">
-                    <h3 class="heading-24-medium color-text">Booking Reference Number #</h3>
-                    <p class="text-16-medium color-text">${
-                      formData.bookrefno
-                    }</p>
-                  </div>
-                  <div class="info-div">
-                    <h3 class="text-18-medium color-text mb-15">Name:</h3>
-                    <p class="text-16-medium color-text mb-5">${
-                      formData.fullname
-                    } ${formData.lastname}</p>
-                  </div>
-                  <div class="info-div">
-                    <h3 class="text-18-medium color-text mb-15">Email:</h3>
-                    <p class="text-16-medium color-text mb-5">${
-                      formData.email
-                    }</p>
-                  </div>
-                  <div class="info-div">
-                    <h3 class="text-18-medium color-text mb-15">Phone No:</h3>
-                    <p class="text-16-medium color-text mb-5">
-                    ${formData.phone}
-                    </p>
-                  </div>
-                  <div class="info-div">
-                    <h3 class="text-18-medium color-text mb-15">Billing Address:</h3>
-                    <p class="text-16-medium color-text mb-5">${
-                      formData.address
-                    }, ${formData.city} - ${formData.zipcode} - ${
-      formData.country
-    }
-                      </p>
-                  </div>
-                  <div class="payment-div">
-                    <h2 class="text-18-medium color-text mb-">Total Payment</h2>
-                    <h6 class="text-16-medium color-text mb-">
-                      <h5 class="text-18-medium color-text">($) ${amount}</h5>
-                    </h6>
-                  </div>
+                <div class="d-flex invoice-top">
+                    <div class="invoice-left">
+                        <div class="" style="display: flex;">
+                            <img class="mb-65 privaceLogo" src="assets/imgs/privaceLogo.jpeg" alt="Privace">
+
+                        </div>
+                        <div class="infoDate">
+                            <p class="text-grey text-14">Invoice date:</p>
+                            <p class="info-p">${new Date().toLocaleDateString()}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="heading-24-medium color-text">Booking Reference Number #</h3>
+                            <p class="info-p">${formData.bookrefno}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Name:</h3>
+                            <p class="infoParamb-5">${formData.fullname} ${formData.lastname}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Email:</h3>
+                            <p class="infoParamb-5">${formData.email}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Phone No:</h3>
+                            <p class="infoParamb-5">${formData.phone}</p>
+                        </div>
+                        <div class="informationDiv">
+                            <h3 class="infoHeadingh3">Billing Address:</h3>
+                            <p ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}
+                            </p>
+                        </div>
+                        <div class="paymentDiv" style="">
+                            <h2 class="text-18-medium color-text mb-">Total Payment</h2>
+                            
+                                <h5 class="infoHeadingh5">${amount}</h5>
+                        </div>
+                    </div>
+
                 </div>
-              </div>
-              <div class="bottom-invoice">
-                <a href="www.luxride.com">www.abc.com</a>
-                <a href="mailto:invoice@luxride.com">ask@privacelimo.com</a>
-                <a href="tel:+6588573797">+65 8857 3797</a>
-              </div>
+
+
+                <div class="bottomInvoice"> <a href="www.luxride.com">www.abc.com</a><a
+                        href="mailto:invoice@luxride.com">ask@privacelimo.com</a><a href="tel:+6588573797">+65 8857
+                        3797</a></div>
             </div>
-          </div>
-        </section>
+        </div>
+    </section>
+
       </body>
       </html>
     `;
