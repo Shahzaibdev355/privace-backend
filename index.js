@@ -197,19 +197,18 @@ app.post("/charge", async (req, res) => {
                             <h3 class="infoHeadingh3">Email:</h3>
                             <p class="infoParamb-5">${formData.email}</p>
                         </div>
-                        <div class="informationDiv">
+                         <div class="informationDiv">
                             <h3 class="infoHeadingh3">Phone No:</h3>
-                            <p class="infoParamb-5">${formData.phone}</p>
+                            <p class="infoParamb-5">${formData.country_code} ${formData.phone}</p>
                         </div>
                         <div class="informationDiv">
                             <h3 class="infoHeadingh3">Billing Address:</h3>
-                            <p ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}
-                            </p>
+                            <p ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
                         </div>
                         <div class="paymentDiv" style="">
                             <h2 class="text-18-medium color-text mb-">Total Payment</h2>
                             
-                                <h5 class="infoHeadingh5">${amount}</h5>
+                                <h5 class="infoHeadingh5"> (S$): ${amount}</h5>
                         </div>
                
                 <div class="bottomInvoice">
