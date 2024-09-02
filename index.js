@@ -10,9 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 
-const browser = await puppeteer.launch({
-  headless: true, // Ensure Puppeteer is running in headless mode
-});
+
 
 const app = express();
 
@@ -232,7 +230,9 @@ app.post("/charge", async (req, res) => {
     `;
 
     // Generate PDF using Puppeteer
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true, // Ensure Puppeteer is running in headless mode
+    });
     const page = await browser.newPage();
     await page.setContent(receiptHtml);
     const pdfBuffer = await page.pdf({ format: "A4" });
