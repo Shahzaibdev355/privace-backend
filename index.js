@@ -48,7 +48,7 @@ app.post("/charge", async (req, res) => {
       },
     });
 
-    //const receiptUrl = charge.receipt_url;
+    const receiptUrl = charge.receipt_url;
 
     // Generate a custom receipt (HTML, PDF, etc.)
     const receiptHtml = `
@@ -59,18 +59,32 @@ app.post("/charge", async (req, res) => {
         <p>Phone: ${formData.country_code} ${formData.phone}</p>
         <p>Amount Paid: $${amount}</p>
         <p>Address: ${formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
+        <p>You can view your official receipt here: <a href="${receiptUrl}">View Receipt</a></p>
       `;
 
     // Send the receipt via email
+    // let transporter = nodemailer.createTransport({
+    //   service: "Gmail",
+    //   auth: {
+    //     user: "shahzaibsheikh366@gmail.com", // Replace with your email
+    //     pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+    //   },
+    //   logger: true, // Enable logging
+    //   debug: true, // Enable debug output
+    // });
+
+    // Send the receipt via email
     let transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: "shahzaibsheikh366@gmail.com", // Replace with your email
-        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
-      },
-      logger: true, // Enable logging
-      debug: true, // Enable debug output
-    });
+        host: "smtpout.secureserver.net", // Replace with your domain's SMTP server
+        port: 465, // You can use 465 for SSL or 587 for TLS
+        secure: true, // Use true for 465, false for other ports
+        auth: {
+          user: "ask@privacelimo.com", // Replace with your domain email
+          pass: "Privace-3797", // Replace with your email password
+        },
+        logger: true, // Enable logging
+        debug: true, // Enable debug output
+      });
 
     // const mailOptions = {
     //   from: "shahzaibsheikh366@gmail.com",
@@ -83,7 +97,7 @@ app.post("/charge", async (req, res) => {
 
     // The following line must be inside an async function
     const info = await transporter.sendMail({
-      from: "shahzaibsheikh366@gmail.com",
+      from: "ask@privacelimo.com",
       to: formData.email,
       subject: "Your Payment Receipt",
       html: receiptHtml,
