@@ -48,7 +48,7 @@ app.post("/charge", async (req, res) => {
       },
     });
 
-    const receiptUrl = charge.receipt_url;
+    //const receiptUrl = charge.receipt_url;
 
     // Generate a custom receipt (HTML, PDF, etc.)
     const receiptHtml = `
@@ -59,7 +59,6 @@ app.post("/charge", async (req, res) => {
         <p>Phone: ${formData.country_code} ${formData.phone}</p>
         <p>Amount Paid: $${amount}</p>
         <p>Address: ${formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
-        <p>You can view your official receipt here: <a href="${receiptUrl}">View Receipt</a></p>
       `;
 
     // Send the receipt via email
