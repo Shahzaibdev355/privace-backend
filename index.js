@@ -69,6 +69,8 @@ app.post("/charge", async (req, res) => {
         user: "shahzaibsheikh366@gmail.com", // Replace with your email
         pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
       },
+        logger: true,  // Enable logging
+        debug: true,   // Enable debug output
     });
 
     const mailOptions = {
@@ -79,10 +81,12 @@ app.post("/charge", async (req, res) => {
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        return console.error(error);
-      }
-      console.log("Receipt sent: " + info.response);
+        try {
+          const info = await transporter.sendMail(mailOptions);
+          console.log("Receipt sent: " + info.response);
+        } catch (error) {
+          console.error("Error sending email:", error);
+        }
     });
 
     res.json({ success: true, charge });
