@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post("/", async (req, res) => {
+app.get("/", async (req, res) => {
   res.json({ message: "backend is running" });
 });
 
