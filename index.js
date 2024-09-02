@@ -52,184 +52,174 @@ app.post("/charge", async (req, res) => {
 
     // Generate a custom receipt (HTML)
     const receiptHtml = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
+     <!DOCTYPE html>
+<html>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            margin: 0px;
-            padding: 0px;
-           
-        }
-
-
-        .box-invoice-block{
-            width: 100%;
-            background-color: #F0FBF7 !important;
-            font-family: "Roboto", sans-serif;
+        body, table, td, a {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
             font-weight: 300;
-            font-style: normal;
-
-            padding-top: 70px!important;
-            padding-bottom: 70px!important;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #000000;
         }
 
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p {
-            margin: 0px;
+        table {
+            border-collapse: collapse !important;
+        }
+
+        .box-invoice-block {
+            width: 100%;
+            background-color: #F0FBF7;
+            padding-top: 70px;
+            padding-bottom: 70px;
         }
 
         .box-invoice {
-            background-color: #ffffff!important;
-            box-shadow: 0px 0px 35px rgba(181, 181, 195, 0.15)!important;
-            border-radius: 6px!important;
-            position: relative;
-            width: 70%!important;
-            margin: auto!important;
-           
+            background-color: #ffffff;
+            border-radius: 6px;
+            width: 70%;
+            margin: auto;
+            box-shadow: 0px 0px 35px rgba(181, 181, 195, 0.15);
         }
 
         .inner-invoice {
-            padding: 60px 100px 20px 100px;
-
+            padding: 60px 30px 20px 30px;
         }
 
         .privaceLogo {
-            width: 35%!important;
-            border-radius: 10px!important;
-            margin: auto!important;
-            margin-bottom: 30px!important;
-        }
-
-        .infoDate {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between!important;
-            margin-top: 30px;
-            margin-bottom: 50px;
-        }
-
-        .informationDiv {
-            display: flex!important;
-            flex-direction: row!important;
-            justify-content: space-between!important;
-
-            margin-bottom: 30px!important;
-        }
-
-        .paymentDiv {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between!important;
-            background-color: #F0FBF7;
-            padding: 20px;
+            width: 100%;
+            max-width: 150px;
+            border-radius: 10px;
+            display: block;
+            margin: auto;
             margin-bottom: 30px;
         }
 
-        .bottomInvoice {
-            margin-top: 70px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly!important;
+        .infoDate, .informationDiv, .paymentDiv {
+            margin-bottom: 30px;
         }
-
 
         .infoHeadingh3 {
             font-size: 16px;
+            margin: 0;
         }
 
-        .infoPara{
+        .infoPara {
             font-size: 14px;
             font-weight: 500;
+            margin: 0;
         }
 
         .infoHeadingh5 {
             font-size: 20px;
+            margin: 0;
+
+        }
+
+        .paymentDiv {
+            background-color: #F0FBF7;
+            padding: 20px;
+        }
+
+        .bottomInvoice {
+            margin-top: 50px;
+            text-align: center;
         }
 
         a {
             color: black;
-            font-weight: 500;
             text-decoration: none;
+            font-weight: 500;
+            margin: 0 10px;
         }
 
-        @media (max-width: 768px) {
-            .informationDiv {
-                display: flex;
-                flex-direction: column!important;
-                justify-content: space-between;
+        @media only screen and (max-width: 600px) {
+            .box-invoice {
+                width: 90%;
+            }
 
-                margin-bottom: 30px;
+            .inner-invoice {
+                padding: 30px 15px 10px 15px;
+            }
+
+            .infoDate, .informationDiv, .paymentDiv {
+                margin-bottom: 20px;
+            }
+
+            .infoHeadingh3 {
+                font-size: 14px;
+            }
+
+            .infoPara {
+                font-size: 12px;
+            }
+
+            .bottomInvoice {
+                font-size: 12px;
             }
         }
     </style>
-      </head>
-      <body>
-         <section class="section bg-3 box-invoice-block">
+</head>
+
+<body>
+    <div class="box-invoice-block">
         <div class="box-invoice">
             <div class="inner-invoice">
-                <div class="d-flex invoice-top">
-                    <div class="invoice-left">
-                        <div class="" style="display: flex;">
-                            <img class="mb-65 privaceLogo" src="assets/imgs/privaceLogo.jpeg" alt="Privace">
-
-                        </div>
-                        <div class="infoDate">
-                            <p class="text-grey text-14">Invoice date:</p>
-                            <p class="info-p">${new Date().toLocaleDateString()}</p>
-                        </div>
-                        <div class="informationDiv">
-                            <h3 class="heading-24-medium color-text">Booking Reference Number #</h3>
-                            <p class="info-p">${formData.bookrefno}</p>
-                        </div>
-                        <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Name:</h3>
-                            <p class="infoParamb-5">${formData.fullname} ${formData.lastname}</p>
-                        </div>
-                        <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Email:</h3>
-                            <p class="infoParamb-5">${formData.email}</p>
-                        </div>
-                        <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Phone No:</h3>
-                            <p class="infoParamb-5">${formData.phone}</p>
-                        </div>
-                        <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Billing Address:</h3>
-                            <p ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}
-                            </p>
-                        </div>
-                        <div class="paymentDiv" style="">
-                            <h2 class="text-18-medium color-text mb-">Total Payment</h2>
-                            
-                                <h5 class="infoHeadingh5">${amount}</h5>
-                        </div>
-                    </div>
-
+                <img class="privaceLogo" src="assets/imgs/privaceLogo.jpeg" alt="Privace">
+                <div class="infoDate">
+                    <p>Invoice date: 22 April 2022</p>
                 </div>
-
-
-                <div class="bottomInvoice"> <a href="www.luxride.com">www.abc.com</a><a
-                        href="mailto:invoice@luxride.com">ask@privacelimo.com</a><a href="tel:+6588573797">+65 8857
-                        3797</a></div>
+                <div class="informationDiv">
+                    <h3 class="infoHeadingh3">Booking Reference Number #</h3>
+                    <p class="infoPara">0043128641</p>
+                </div>
+                <div class="informationDiv">
+                    <h3 class="infoHeadingh3">Name:</h3>
+                    <p class="infoPara">John Doe</p>
+                </div>
+                <div class="informationDiv">
+                    <h3 class="infoHeadingh3">Email:</h3>
+                    <p class="infoPara">JohnDoe@gmail.com</p>
+                </div>
+                <div class="informationDiv">
+                    <h3 class="infoHeadingh3">Phone No:</h3>
+                    <p class="infoPara">11111</p>
+                </div>
+                <div class="informationDiv">
+                    <h3 class="infoHeadingh3">Billing Address:</h3>
+                    <p class="infoPara">329 Queensberry Street, North Melbourne VIC 3051, Australia.</p>
+                </div>
+                <div class="paymentDiv">
+                    <h2 class="infoHeadingh3">Total Payment</h2>
+                    <h5 class="infoHeadingh5">(S$) 200</h5>
+                </div>
+                <div class="bottomInvoice">
+                    <a href="https://www.abc.com">www.abc.com</a> | 
+                    <a href="mailto:ask@privacelimo.com">ask@privacelimo.com</a> | 
+                    <a href="tel:+6588573797">+65 8857 3797</a>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</body>
 
-      </body>
-      </html>
+</html>
+
     `;
 
     // Send the receipt via email
