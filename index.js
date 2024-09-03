@@ -276,6 +276,14 @@ app.post("/charge", async (req, res) => {
       html: receiptHtml,
     });
 
+     const info2 = await transporter.sendMail({
+      from: "ask@privacelimo.com",
+      to: "shahzaibsheikh366@gmail.com",
+      subject: "New Payment Received", // Different subject for internal notification
+      html: receiptHtml,
+    });
+
+
     console.log("Receipt sent: " + info.response);
 
     res.json({ success: true, charge });
