@@ -12,7 +12,16 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
+
+// Configure CORS
+const corsOptions = {
+  origin: 'https://privace-limousine.vercel.app',
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type,Authorization',
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 
 app.get("/", async (req, res) => {
