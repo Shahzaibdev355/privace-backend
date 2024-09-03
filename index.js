@@ -1,7 +1,7 @@
 
-const fs = require("fs");
-const path = require("path");
 
+const { MongoClient } = require("mongodb");
+const uri = "mongodb+srv://shahzaibsheikh366:0336shahzaib@cluster0.mbhxk7n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
 
 const nodemailer = require("nodemailer");
 const express = require("express");
@@ -302,15 +302,44 @@ app.post("/charge", async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+async function connectToDatabase() {
+  await client.connect();
+  const db = client.db("bookingDB"); // Replace with your database name
+  const collection = db.collection("bookingNumbers"); // Replace with your collection name
+  return collection;
+}
+
 // Helper function to generate a unique booking number
-function generateUniqueBookingNumber(existingNumbers) {
+async function generateUniqueBookingNumber(collection) {
   let bookingNumber;
+  let isUnique = false;
+
   do {
     const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random 4-digit number
     bookingNumber = `Privace-${randomNumber}`;
-  } while (existingNumbers.includes(bookingNumber)); // Ensure it's unique
+    const existingNumber = await collection.findOne({ bookingNumber: bookingNumber });
+    if (!existingNumber) {
+      isUnique = true;
+    }
+  } while (!isUnique);
+
   return bookingNumber;
 }
+
+
+
+
+
+
 
 
 
@@ -335,77 +364,56 @@ app.post("/booknow", async (req, res) => {
     notesToDriver,
   } = req.body;
 
-
-
-// Read the existing booking numbers from number.json
-  const filePath = path.join(__dirname, "number.json");
-  let existingNumbers = [];
-
   try {
-    const data = fs.readFileSync(filePath, "utf8");
-    existingNumbers = JSON.parse(data);
-  } catch (error) {
-    console.error("Error reading number.json:", error);
-  }
+    const collection = await connectToDatabase();
 
-  // Generate a unique booking number
-  const bookingNumber = generateUniqueBookingNumber(existingNumbers);
+    // Generate a unique booking number
+    const bookingNumber = await generateUniqueBookingNumber(collection);
 
-  // Save the new booking number to number.json
-  existingNumbers.push(bookingNumber);
-  try {
-    fs.writeFileSync(filePath, JSON.stringify(existingNumbers, null, 2));
-  } catch (error) {
-    console.error("Error writing to number.json:", error);
-  }
+    // Save the booking number in the collection
+    await collection.insertOne({ bookingNumber: bookingNumber });
 
+    // Email content
+    let mailOptions = {
+      from: "shahzaibsheikh366@gmail.com",
+      to: "shahzaibsheikh366@gmail.com",
+      subject: "New Booking Request",
+      text: `
+        Booking Number: ${bookingNumber}
+        Name: ${fname} ${lname}
+        Email: ${email}
+        Phone Number: ${phoneno}
+        Booking Date: ${bookingdate}
+        Booking Time: ${bookingtime}
+        Limousine Service: ${limousineservice}
+        Pick Up Address: ${pickupaddress}
+        Drop Off Address: ${dropoffaddress}
+        Number Of Passengers: ${noOfpassengers}
+        Fleet Type: ${fleetType}
+        Flight No.: ${flightno}
+        No. of Luggage: ${noOfLuggage}
+        No. of Hours: ${noOfHours}
+        Notes to Driver: ${notesToDriver}
+      `,
+    };
 
+    // Nodemailer setup
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "shahzaibsheikh366@gmail.com", // Replace with your email
+        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+      },
+    });
 
-
-
-
-
-  
-
-  // Email content
-  let mailOptions = {
-    from: "shahzaibsheikh366@gmail.com",
-    to: "shahzaibsheikh366@gmail.com",
-    subject: "New Booking Request",
-    text: `
-      Booking Number: ${bookingNumber}
-      Name: ${fname} ${lname}
-      Email: ${email}
-      Phone Number: ${phoneno}
-      Booking Date: ${bookingdate}
-      Booking Time: ${bookingtime}
-      Limousine Service: ${limousineservice}
-      Pick Up Address: ${pickupaddress}
-      Drop Off Address: ${dropoffaddress}
-      Number Of Passengers: ${noOfpassengers}
-      Fleet Type: ${fleetType}
-      Flight No.: ${flightno}
-      No. of Luggage: ${noOfLuggage}
-      No. of Hours: ${noOfHours}
-      Notes to Driver: ${notesToDriver}
-    `,
-  };
-
-  // Nodemailer setup
-  let transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: "shahzaibsheikh366@gmail.com", // Replace with your email
-      pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
-    },
-  });
-
-  // Send email
-  try {
+    // Send email
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Booking request sent successfully." });
   } catch (error) {
+    console.error("Error processing booking:", error);
     res.status(500).json({ message: "Failed to send the booking request." });
+  } finally {
+    client.close();
   }
 });
 
