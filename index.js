@@ -309,7 +309,7 @@ app.post("/charge", async (req, res) => {
 
 
 
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
 
 async function connectToDatabase() {
   await client.connect();
@@ -343,7 +343,6 @@ async function generateUniqueBookingNumber(collection) {
 
 
 
-
 // API route
 app.post("/booknow", async (req, res) => {
   const {
@@ -365,7 +364,7 @@ app.post("/booknow", async (req, res) => {
   } = req.body;
 
   try {
-    const collection = await connectToDatabase();
+     const collection = await connectToDatabase();
 
     // Generate a unique booking number
     const bookingNumber = await generateUniqueBookingNumber(collection);
