@@ -357,6 +357,50 @@ app.post("/booknow", async (req, res) => {
 
 
 
+
+app.post("/contactus", async (req, res) => {
+    const {
+    fullname,
+    email,
+    subject,
+    message
+      
+    } = req.body;
+  
+    // Email content
+    let mailOptions = {
+      from: "shahzaibsheikh366@gmail.com",
+      to: "shahzaibsheikh366@gmail.com",
+      subject: "Contact Form Query from (Privace Limousine Transportation",
+      text: `
+        Name: ${fullname}
+        Email: ${email}
+        Subject: ${subject}
+        Message: ${message}
+      `,
+    };
+  
+    // Nodemailer setup
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: "shahzaibsheikh366@gmail.com", // Replace with your email
+        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+      },
+    });
+  
+    // Send email
+    try {
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ message: "Booking request sent successfully." });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to send the booking request." });
+    }
+  });
+
+
+
+
 app.listen(3000, () => console.log("Server running on port 3000"));
 
 // module.exports = app;
