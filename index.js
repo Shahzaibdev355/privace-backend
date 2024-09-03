@@ -192,7 +192,7 @@ app.post("/charge", async (req, res) => {
     <div class="box-invoice-block">
         <div class="box-invoice">
             <div class="inner-invoice">
-                <img class="privaceLogo" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
+                <img class="privaceLogo" style:"max-width: 250px;" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
                  <div class="infoDate">
                             <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Invoice date:</h3>
      <p class="infoPara" style="font-size: 18px;"> ${new Date().toLocaleDateString()}</p>
