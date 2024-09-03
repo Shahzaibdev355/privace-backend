@@ -133,7 +133,7 @@ app.post("/charge", async (req, res) => {
         }
 
         .infoHeadingh5 {
-            font-size: 20px;
+            font-size: 22px;
             margin: 0;
 
         }
@@ -189,31 +189,31 @@ app.post("/charge", async (req, res) => {
             <div class="inner-invoice">
                 <img class="privaceLogo" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
                  <div class="infoDate">
-                            <p class="text-grey text-14">Invoice date:</p>
-                            <p class="info-p">${new Date().toLocaleDateString()}</p>
+                            <<h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Invoice date:</h3>
+                            <p class="infoPara" style="font-size: 18px;>${new Date().toLocaleDateString()}</p>
                         </div>
                         <div class="informationDiv">
-                            <h3 class="heading-24-medium color-text">Booking Reference Number #</h3>
-                            <p class="info-p">${formData.bookrefno}</p>
+                            <h3 class="" style="font-size: 20px; margin-bottom: 0px;">Booking Reference Number #</h3>
+                            <p class="infoPara" style="font-size: 18px; margin-bottom: 0px;">${formData.bookrefno}</p>
                         </div>
                         <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Name:</h3>
-                            <p class="infoParamb-5">${formData.fullname} ${formData.lastname}</p>
+                            <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Name:</h3>
+                            <p class="infoPara mb-5"style="font-size: 18px; margin-bottom: 0px;">${formData.fullname} ${formData.lastname}</p>
                         </div>
                         <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Email:</h3>
-                            <p class="infoParamb-5">${formData.email}</p>
+                            <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Email:</h3>
+                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${formData.email}</p>
                         </div>
                          <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Phone No:</h3>
-                            <p class="infoParamb-5">${formData.country_code} ${formData.phone}</p>
+                            <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Phone No:</h3>
+                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${formData.country_code} ${formData.phone}</p>
                         </div>
-                        <div class="informationDiv">
-                            <h3 class="infoHeadingh3">Billing Address:</h3>
-                            <p> ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
+                        <div class="informationDiv" >
+                            <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Billing Address:</h3>
+                            <p style="font-size: 18px; margin-bottom: 0px;"> ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
                         </div>
                         <div class="paymentDiv" style="">
-                            <h2 class="text-18-medium color-text mb-">Total Payment</h2>
+                            <h2 class="text-18-medium color-text mb-" style="font-size: 26px; margin-bottom: 10px;">Total Payment:</h2>
                             
                                 <h5 class="infoHeadingh5"> (S$): ${amount}</h5>
                         </div>
