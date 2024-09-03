@@ -155,6 +155,11 @@ app.post("/charge", async (req, res) => {
             margin: 0 10px;
         }
 
+        .ii a[href] {
+    color: black!important;
+     font-size: 18px;
+}
+
         @media only screen and (max-width: 600px) {
             .box-invoice {
                 width: 90%;
@@ -189,8 +194,8 @@ app.post("/charge", async (req, res) => {
             <div class="inner-invoice">
                 <img class="privaceLogo" src="https://privace-limousine.vercel.app/assets/imgs/privace-logo.jpeg" alt="Privace">
                  <div class="infoDate">
-                            <<h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Invoice date:</h3>
-                            <p class="infoPara" style="font-size: 18px;>${new Date().toLocaleDateString()}</p>
+                            <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Invoice date:</h3>
+     <p class="infoPara" style="font-size: 18px;"> ${new Date().toLocaleDateString()}</p>
                         </div>
                         <div class="informationDiv">
                             <h3 class="" style="font-size: 20px; margin-bottom: 0px;">Booking Reference Number #</h3>
