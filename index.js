@@ -292,6 +292,71 @@ app.post("/charge", async (req, res) => {
   }
 });
 
+
+// API route
+app.post("/booknow", async (req, res) => {
+  const {
+    fname,
+    lname,
+    email,
+    phoneno,
+    bookingdate,
+    bookingtime,
+    limousineservice,
+    pickupaddress,
+    dropoffaddress,
+    noOfpassengers,
+    fleetType,
+    flightno,
+    noOfLuggage,
+    noOfHours,
+    notesToDriver,
+  } = req.body;
+
+  // Email content
+  let mailOptions = {
+    from: "shahzaibsheikh366@gmail.com",
+    to: "shahzaibsheikh366@gmail.com",
+    subject: "New Booking Request",
+    text: `
+      Name: ${fname} ${lname}
+      Email: ${email}
+      Phone Number: ${phoneno}
+      Booking Date: ${bookingdate}
+      Booking Time: ${bookingtime}
+      Limousine Service: ${limousineservice}
+      Pick Up Address: ${pickupaddress}
+      Drop Off Address: ${dropoffaddress}
+      Number Of Passengers: ${noOfpassengers}
+      Fleet Type: ${fleetType}
+      Flight No.: ${flightno}
+      No. of Luggage: ${noOfLuggage}
+      No. of Hours: ${noOfHours}
+      Notes to Driver: ${notesToDriver}
+    `,
+  };
+
+  // Nodemailer setup
+  let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "shahzaibsheikh366@gmail.com", // Replace with your email
+      pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+    },
+  });
+
+  // Send email
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Booking request sent successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to send the booking request." });
+  }
+});
+
+
+
+
 app.listen(3000, () => console.log("Server running on port 3000"));
 
 // module.exports = app;
