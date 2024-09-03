@@ -313,7 +313,7 @@ const client = new MongoClient(uri);
 
 async function connectToDatabase() {
   await client.connect();
-  const db = client.db("bookingDB"); // Replace with your database name
+  const db = client.db("privace"); // Replace with your database name
   const collection = db.collection("bookingnumber"); // Replace with your collection name
   return collection;
 }
@@ -370,7 +370,7 @@ app.post("/booknow", async (req, res) => {
     const bookingNumber = await generateUniqueBookingNumber(collection);
 
     // Save the booking number in the collection
-    await collection.insertOne({ bookingNumber: bookingnumber });
+    await collection.insertOne({ bookingNumber: bookingNumber });
 
     // Email content
     let mailOptions = {
