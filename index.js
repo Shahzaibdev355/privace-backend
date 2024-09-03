@@ -1,7 +1,6 @@
 
 
 const { MongoClient } = require("mongodb");
-const uri = "mongodb+srv://shahzaibsheikh366:0336shahzaib@cluster0.mbhxk7n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
 
 const nodemailer = require("nodemailer");
 const express = require("express");
@@ -308,7 +307,7 @@ app.post("/charge", async (req, res) => {
 
 
 
-
+const uri = "mongodb+srv://shahzaibsheikh366:0336shahzaib@cluster0.mbhxk7n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
 const client = new MongoClient(uri);
 
 async function connectToDatabase() {
