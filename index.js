@@ -1,3 +1,8 @@
+
+const fs = require("fs");
+const path = require("path");
+
+
 const nodemailer = require("nodemailer");
 const express = require("express");
 const stripe = require("stripe")(
@@ -293,6 +298,23 @@ app.post("/charge", async (req, res) => {
 });
 
 
+
+
+
+
+// Helper function to generate a unique booking number
+function generateUniqueBookingNumber(existingNumbers) {
+  let bookingNumber;
+  do {
+    const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random 4-digit number
+    bookingNumber = `Privace-${randomNumber}`;
+  } while (existingNumbers.includes(bookingNumber)); // Ensure it's unique
+  return bookingNumber;
+}
+
+
+
+
 // API route
 app.post("/booknow", async (req, res) => {
   const {
@@ -313,12 +335,45 @@ app.post("/booknow", async (req, res) => {
     notesToDriver,
   } = req.body;
 
+
+
+// Read the existing booking numbers from number.json
+  const filePath = path.join(__dirname, "number.json");
+  let existingNumbers = [];
+
+  try {
+    const data = fs.readFileSync(filePath, "utf8");
+    existingNumbers = JSON.parse(data);
+  } catch (error) {
+    console.error("Error reading number.json:", error);
+  }
+
+  // Generate a unique booking number
+  const bookingNumber = generateUniqueBookingNumber(existingNumbers);
+
+  // Save the new booking number to number.json
+  existingNumbers.push(bookingNumber);
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(existingNumbers, null, 2));
+  } catch (error) {
+    console.error("Error writing to number.json:", error);
+  }
+
+
+
+
+
+
+
+  
+
   // Email content
   let mailOptions = {
     from: "shahzaibsheikh366@gmail.com",
     to: "shahzaibsheikh366@gmail.com",
     subject: "New Booking Request",
     text: `
+      Booking Number: ${bookingNumber}
       Name: ${fname} ${lname}
       Email: ${email}
       Phone Number: ${phoneno}
