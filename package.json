@@ -3,8 +3,9 @@
     "@splinetool/loader": "^1.9.6",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "fs": "^0.0.1-security",
     "nodemailer": "^6.9.14",
-    "puppeteer": "^23.2.1",
+    "path": "^0.12.7",
     "stripe": "^16.9.0"
   }
 }
