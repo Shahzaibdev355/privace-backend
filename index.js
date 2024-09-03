@@ -27,7 +27,7 @@ app.post("/charge", async (req, res) => {
 
     const charge = await stripe.charges.create({
       amount: Math.round(amount * 100),
-      currency: "usd",
+      currency: "sgd",
       customer: customer.id, // Link the charge to the customer
       description: `Paid By ${formData.fullname} ${formData.lastname}`,
       receipt_email: formData.email,
