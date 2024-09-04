@@ -4,27 +4,20 @@ const stripe = require("stripe")(
   "sk_test_51PtRoxRqsLaTotiTU6ykhRnVLDGA2FL2aDFxUeJ6lpcF6qjMccXEJPOOPbIODBzM05gkgaBALvA9NwNB6N8IKCsR00iLzJ61YV"
 );
 
-
-
-
-const admin = require('firebase-admin');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid'); // For generating unique IDs
+const admin = require("firebase-admin");
+const path = require("path");
+const { v4: uuidv4 } = require("uuid"); // For generating unique IDs
 
 // Initialize Firebase
-const serviceAccount = require(path.join(__dirname, 'first-project.json'));
+const serviceAccount = require(path.join(__dirname, "first-project.json"));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://first-project-f1740-default-rtdb.asia-southeast1.firebasedatabase.app/'
+  databaseURL:
+    "https://first-project-f1740-default-rtdb.asia-southeast1.firebasedatabase.app/",
 });
 
 const db = admin.firestore();
-
-
-
-
-
 
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -222,23 +215,35 @@ app.post("/charge", async (req, res) => {
                         </div>
                         <div class="informationDiv">
                             <h3 class="" style="font-size: 20px; margin-bottom: 0px;">Booking Reference Number #</h3>
-                            <p class="infoPara" style="font-size: 18px; margin-bottom: 0px;">${formData.bookrefno}</p>
+                            <p class="infoPara" style="font-size: 18px; margin-bottom: 0px;">${
+                              formData.bookrefno
+                            }</p>
                         </div>
                         <div class="informationDiv">
                             <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Name:</h3>
-                            <p class="infoPara mb-5"style="font-size: 18px; margin-bottom: 0px;">${formData.fullname} ${formData.lastname}</p>
+                            <p class="infoPara mb-5"style="font-size: 18px; margin-bottom: 0px;">${
+                              formData.fullname
+                            } ${formData.lastname}</p>
                         </div>
                         <div class="informationDiv">
                             <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Email:</h3>
-                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${formData.email}</p>
+                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${
+                              formData.email
+                            }</p>
                         </div>
                          <div class="informationDiv">
                             <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Phone No:</h3>
-                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${formData.country_code} ${formData.phone}</p>
+                            <p class="infoPara mb-5" style="font-size: 18px; margin-bottom: 0px;">${
+                              formData.country_code
+                            } ${formData.phone}</p>
                         </div>
                         <div class="informationDiv" >
                             <h3 class="infoHeadingh3" style="font-size: 20px; margin-bottom: 0px;">Billing Address:</h3>
-                            <p style="font-size: 18px; margin-bottom: 0px;"> ${ formData.address}, ${formData.city} - ${formData.zipcode} - ${formData.country}</p>
+                            <p style="font-size: 18px; margin-bottom: 0px;"> ${
+                              formData.address
+                            }, ${formData.city} - ${formData.zipcode} - ${
+      formData.country
+    }</p>
                         </div>
                         <div class="paymentDiv" style="">
                             <h2 class="text-18-medium color-text mb-" style="font-size: 26px; margin-bottom: 10px;">Total Payment:</h2>
@@ -295,17 +300,16 @@ app.post("/charge", async (req, res) => {
     const info = await transporter.sendMail({
       from: "ask@privacelimo.com",
       to: formData.email,
-      subject: "Your Payment Receipt",
+      subject: "Your Payment Receipt (Privace Limousine Transportation)",
       html: receiptHtml,
     });
 
-     const info2 = await transporter.sendMail({
+    const info2 = await transporter.sendMail({
       from: "ask@privacelimo.com",
-      to: "shahzaibsheikh366@gmail.com",
-      subject: "New Payment Received", // Different subject for internal notification
+      to: "ask@privacelimo.com",
+      subject: `${formData.bookrefno} Payment Received (Privace Limousine Transportation)`, // Different subject for internal notification
       html: receiptHtml,
     });
-
 
     console.log("Receipt sent: " + info.response);
 
@@ -315,13 +319,9 @@ app.post("/charge", async (req, res) => {
   }
 });
 
-
-
-
-
 // Function to generate booking number
 function generateBookingNumber() {
-  const prefix = 'Privace'; // Change this to your desired prefix
+  const prefix = "Privace"; // Change this to your desired prefix
   const min = 1000; // Minimum value
   const max = 90000; // Maximum value
   const randomNumber = Math.floor(min + Math.random() * (max - min));
@@ -329,13 +329,12 @@ function generateBookingNumber() {
   return `${prefix}-${randomNumber}`;
 }
 
-
 app.post("/booknow", async (req, res) => {
   const {
     fname,
     lname,
     email,
-    country_code,
+    countrycode,
     phoneno,
     bookingdate,
     bookingtime,
@@ -350,7 +349,7 @@ app.post("/booknow", async (req, res) => {
     notesToDriver,
   } = req.body;
 
-   let bookingNumber;
+  let bookingNumber;
   let unique = false;
 
   // Loop to generate a unique booking number
@@ -358,8 +357,11 @@ app.post("/booknow", async (req, res) => {
     bookingNumber = generateBookingNumber();
 
     // Check if booking number already exists in Firestore
-    const snapshot = await db.collection("bookingnumbers").where("bookingNumber", "==", bookingNumber).get();
-    
+    const snapshot = await db
+      .collection("bookingnumbers")
+      .where("bookingNumber", "==", bookingNumber)
+      .get();
+
     if (snapshot.empty) {
       // Booking number does not exist, proceed
       unique = true;
@@ -371,17 +373,17 @@ app.post("/booknow", async (req, res) => {
     await db.collection("bookingnumbers").add({
       bookingNumber,
     });
-    
+
     // Email content
     let mailOptions = {
-      from: "shahzaibsheikh366@gmail.com",
-      to: "shahzaibsheikh366@gmail.com",
+      from: "ask@privacelimo.com",
+      to: "ask@privacelimo.com",
       subject: "New Booking Request",
       text: `
         Booking Number: ${bookingNumber}
         Name: ${fname} ${lname}
         Email: ${email}
-        Phone Number: ${country_code} ${phoneno}
+        Phone Number: ${countrycode} ${phoneno}
         Booking Date: ${bookingdate}
         Booking Time: ${bookingtime}
         Limousine Service: ${limousineservice}
@@ -397,11 +399,21 @@ app.post("/booknow", async (req, res) => {
     };
 
     // Nodemailer setup
+    // let transporter = nodemailer.createTransport({
+    //   service: "Gmail",
+    //   auth: {
+    //     user: "shahzaibsheikh366@gmail.com", // Replace with your email
+    //     pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+    //   },
+    // });
+
     let transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: "smtpout.secureserver.net", // Replace with your domain's SMTP server
+      port: 465, // You can use 465 for SSL or 587 for TLS
+      secure: true, // Use true for 465, false for other ports
       auth: {
-        user: "shahzaibsheikh366@gmail.com", // Replace with your email
-        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
+        user: "ask@privacelimo.com", // Replace with your domain email
+        pass: "Privace-3797", // Replace with your email password
       },
     });
 
@@ -409,56 +421,47 @@ app.post("/booknow", async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Booking request sent successfully." });
   } catch (error) {
-    res.status(500).json({ message: "Failed to store booking or send the email." });
+    res
+      .status(500)
+      .json({ message: "Failed to store booking or send the email." });
   }
 });
 
-
-
-
-
 app.post("/contactus", async (req, res) => {
-    const {
-    fullname,
-    email,
-    subject,
-    message
-      
-    } = req.body;
-  
-    // Email content
-    let mailOptions = {
-      from: "shahzaibsheikh366@gmail.com",
-      to: "shahzaibsheikh366@gmail.com",
-      subject: "Contact Form Query from (Privace Limousine Transportation",
-      text: `
+  const { fullname, email, subject, message } = req.body;
+
+  // Email content
+  let mailOptions = {
+    from: "ask@privacelimo.com",
+    to: "ask@privacelimo.com",
+    subject: "Contact Form Query from (Privace Limousine Transportation",
+    text: `
         Name: ${fullname}
         Email: ${email}
         Subject: ${subject}
         Message: ${message}
       `,
-    };
-  
-    // Nodemailer setup
-    let transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: "shahzaibsheikh366@gmail.com", // Replace with your email
-        pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
-      },
-    });
-  
-    // Send email
-    try {
-      await transporter.sendMail(mailOptions);
-      res.status(200).json({ message: "Booking request sent successfully." });
-    } catch (error) {
-      res.status(500).json({ message: "Failed to send the booking request." });
-    }
+  };
+
+  // Nodemailer setup
+  let transporter = nodemailer.createTransport({
+    host: "smtpout.secureserver.net", // Replace with your domain's SMTP server
+    port: 465, // You can use 465 for SSL or 587 for TLS
+    secure: true, // Use true for 465, false for other ports
+    auth: {
+      user: "ask@privacelimo.com", // Replace with your domain email
+      pass: "Privace-3797", // Replace with your email password
+    },
   });
 
-
-
+  // Send email
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Booking request sent successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to send the booking request." });
+  }
+});
 
 app.listen(3000, () => console.log("Server running on port 3000"));
 
