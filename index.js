@@ -1,27 +1,37 @@
-
-
-const { MongoClient } = require("mongodb");
-
 const nodemailer = require("nodemailer");
 const express = require("express");
 const stripe = require("stripe")(
   "sk_test_51PtRoxRqsLaTotiTU6ykhRnVLDGA2FL2aDFxUeJ6lpcF6qjMccXEJPOOPbIODBzM05gkgaBALvA9NwNB6N8IKCsR00iLzJ61YV"
 );
+
+
+
+
+const admin = require('firebase-admin');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid'); // For generating unique IDs
+
+// Initialize Firebase
+const serviceAccount = require(path.join(__dirname, 'first-project.json'));
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://first-project-f1740-default-rtdb.asia-southeast1.firebasedatabase.app/'
+});
+
+const db = admin.firestore();
+
+
+
+
+
+
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
 
-//app.use(cors());
-
-// Configure CORS
-const corsOptions = {
-  origin: 'https://privace-limousine.vercel.app',
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type,Authorization',
-};
-app.use(cors(corsOptions));
-
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", async (req, res) => {
@@ -306,52 +316,6 @@ app.post("/charge", async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-const uri = "mongodb+srv://shahzaibsheikh366:0336shahzaib@cluster0.mbhxk7n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Replace with your MongoDB connection string
-const client = new MongoClient(uri);
-
-async function connectToDatabase() {
-  await client.connect();
-  const db = client.db("privace"); // Replace with your database name
-  const collection = db.collection("bookingnumber"); // Replace with your collection name
-  return collection;
-}
-
-// Helper function to generate a unique booking number
-async function generateUniqueBookingNumber(collection) {
-  let bookingNumber;
-  let isUnique = false;
-
-  do {
-    const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random 4-digit number
-    bookingNumber = `Privace-${randomNumber}`;
-    const existingNumber = await collection.findOne({ bookingNumber: bookingNumber });
-    if (!existingNumber) {
-      isUnique = true;
-    }
-  } while (!isUnique);
-
-  return bookingNumber;
-}
-
-
-
-
-
-
-
-
-
-// API route
 app.post("/booknow", async (req, res) => {
   const {
     fname,
@@ -371,15 +335,23 @@ app.post("/booknow", async (req, res) => {
     notesToDriver,
   } = req.body;
 
+  // Generate a unique booking number
+  const bookingNumber = uuidv4(); // Or use another unique method
+
+  // Check if booking number already exists in Firestore
+  const snapshot = await db.collection("bookingnumbers").where("bookingNumber", "==", bookingNumber).get();
+  
+  if (!snapshot.empty) {
+    // Booking number already exists, generate a new one
+    return res.status(500).json({ message: "Failed to generate a unique booking number." });
+  }
+
+  // Store only the booking number in Firestore
   try {
-     const collection = await connectToDatabase();
-
-    // Generate a unique booking number
-    const bookingNumber = await generateUniqueBookingNumber(collection);
-
-    // Save the booking number in the collection
-    await collection.insertOne({ bookingNumber: bookingNumber });
-
+    await db.collection("bookingnumbers").add({
+      bookingNumber,
+    });
+    
     // Email content
     let mailOptions = {
       from: "shahzaibsheikh366@gmail.com",
@@ -417,10 +389,7 @@ app.post("/booknow", async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Booking request sent successfully." });
   } catch (error) {
-    console.error("Error processing booking:", error);
-    res.status(500).json({ message: "Failed to send the booking request." });
-  } finally {
-    client.close();
+    res.status(500).json({ message: "Failed to store booking or send the email." });
   }
 });
 
