@@ -322,7 +322,10 @@ app.post("/charge", async (req, res) => {
 // Function to generate booking number
 function generateBookingNumber() {
   const prefix = 'Privace'; // Change this to your desired prefix
-  const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random number between 1000 and 9999
+  const min = 1000; // Minimum value
+  const max = 90000; // Maximum value
+  const randomNumber = Math.floor(min + Math.random() * (max - min));
+  //const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random number between 1000 and 9999
   return `${prefix}-${randomNumber}`;
 }
 
