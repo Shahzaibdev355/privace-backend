@@ -335,6 +335,7 @@ app.post("/booknow", async (req, res) => {
     fname,
     lname,
     email,
+    country_code,
     phoneno,
     bookingdate,
     bookingtime,
@@ -380,7 +381,7 @@ app.post("/booknow", async (req, res) => {
         Booking Number: ${bookingNumber}
         Name: ${fname} ${lname}
         Email: ${email}
-        Phone Number: ${phoneno}
+        Phone Number: ${country_code} ${phoneno}
         Booking Date: ${bookingdate}
         Booking Time: ${bookingtime}
         Limousine Service: ${limousineservice}
