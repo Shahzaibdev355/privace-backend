@@ -316,6 +316,17 @@ app.post("/charge", async (req, res) => {
 });
 
 
+
+
+
+// Function to generate booking number
+function generateBookingNumber() {
+  const prefix = 'Privace'; // Change this to your desired prefix
+  const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random number between 1000 and 9999
+  return `${prefix}-${randomNumber}`;
+}
+
+
 app.post("/booknow", async (req, res) => {
   const {
     fname,
@@ -336,7 +347,7 @@ app.post("/booknow", async (req, res) => {
   } = req.body;
 
   // Generate a unique booking number
-  const bookingNumber = uuidv4(); // Or use another unique method
+  const bookingNumber = generateBookingNumber(); // Or use another unique method
 
   // Check if booking number already exists in Firestore
   const snapshot = await db.collection("bookingnumbers").where("bookingNumber", "==", bookingNumber).get();
