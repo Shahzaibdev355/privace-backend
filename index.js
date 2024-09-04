@@ -346,15 +346,20 @@ app.post("/booknow", async (req, res) => {
     notesToDriver,
   } = req.body;
 
-  // Generate a unique booking number
-  const bookingNumber = generateBookingNumber(); // Or use another unique method
+   let bookingNumber;
+  let unique = false;
 
-  // Check if booking number already exists in Firestore
-  const snapshot = await db.collection("bookingnumbers").where("bookingNumber", "==", bookingNumber).get();
-  
-  if (!snapshot.empty) {
-    // Booking number already exists, generate a new one
-    return res.status(500).json({ message: "Failed to generate a unique booking number." });
+  // Loop to generate a unique booking number
+  while (!unique) {
+    bookingNumber = generateBookingNumber();
+
+    // Check if booking number already exists in Firestore
+    const snapshot = await db.collection("bookingnumbers").where("bookingNumber", "==", bookingNumber).get();
+    
+    if (snapshot.empty) {
+      // Booking number does not exist, proceed
+      unique = true;
+    }
   }
 
   // Store only the booking number in Firestore
