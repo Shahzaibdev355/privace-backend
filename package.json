@@ -2,6 +2,7 @@
   "dependencies": {
     "@splinetool/loader": "^1.9.6",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "env": "^0.0.2",
     "express": "^4.19.2",
     "firebase": "^10.13.1",
