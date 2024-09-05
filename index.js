@@ -4,8 +4,8 @@ require("dotenv").config();
 // const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 
-const { handlePayment, handleBooking, handleContact } = require('./paymentHandler');
 
+const { handlePayment, handleBooking, handleContact } = require('./controller');
 
 
 
