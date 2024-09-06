@@ -1,36 +1,20 @@
-// const nodemailer = require("nodemailer");
-const express = require("express");
-require("dotenv").config();
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 
+// const { handlePayment, handleBooking, handleContact } = require('./controller');
 
-const { handlePayment, handleBooking, handleContact } = require('./controller');
 
 
 
 // const { v4: uuidv4 } = require("uuid"); 
 
-// const admin = require("firebase-admin");
-// const path = require("path");
 
-// // Initialize Firebase
-// const serviceAccount = require(path.join(__dirname, process.env.FIRBASE_APPLICATION_CREDENTIALS));
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL:  process.env.FIREBASE_DATABASE_URL,
-// });
-
-// const db = admin.firestore();
-
-
-
-
-
-
+const express = require("express");
+require("dotenv").config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
+const routes = require("./routes"); // Import the routes
+
 
 const app = express();
 
@@ -38,7 +22,6 @@ const port = process.env.PORT || 3000; // Use the port from .env, default to 300
 
 app.use(cors());
 app.use(bodyParser.json());
-
 
 
 
@@ -50,17 +33,21 @@ app.get("/", async (req, res) => {
 
 
 
+// Use the API routes from routes.js
+app.use("/", routes);
+
+
 
 // Route handler
-app.post("/charge", handlePayment);
+// app.post("/charge", handlePayment);
 
 
 
-app.post("/booknow",handleBooking);
+// app.post("/booknow",handleBooking);
 
 
 
-app.post("/contactus", handleContact)
+// app.post("/contactus", handleContact)
 
 
 
