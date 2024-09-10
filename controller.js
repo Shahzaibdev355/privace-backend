@@ -9,9 +9,7 @@ require("dotenv").config();
 const admin = require("firebase-admin");
 const path = require("path");
 
-// const serviceAccount = require(path.join(__dirname, process.env.FIRBASE_APPLICATION_CREDENTIALS));
 
-// const serviceAccount = require(path.join(__dirname, "first-project.json"));
 
 require("dotenv").config();
 
@@ -262,7 +260,7 @@ let handlePayment = async (req, res) => {
                           </div>
                  
                   <div class="bottomInvoice">
-                      <a href="https://www.abc.com">www.abc.com</a> | 
+                      <a href="https://www.privacelimo.com">www.privacelimo.com</a> | 
                       <a href="mailto:ask@privacelimo.com">ask@privacelimo.com</a> | 
                       <a href="tel:+6588573797">+65 8857 3797</a>
                   </div>
@@ -275,19 +273,7 @@ let handlePayment = async (req, res) => {
   
       `;
 
-    // Send the receipt via email
-    // let transporter = nodemailer.createTransport({
-    //   service: "Gmail",
-    //   auth: {
-    //     user: "shahzaibsheikh366@gmail.com", // Replace with your email
-    //     pass: "zjhr yeuh akum pthu", // Replace with your email password or app-specific password
-    //   },
-    //   logger: true, // Enable logging
-    //   debug: true, // Enable debug output
-    // });
-
-    // Send the receipt via email
-
+  
     let transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: process.env.SMTP_PORT,
@@ -302,15 +288,15 @@ let handlePayment = async (req, res) => {
 
     // The following line must be inside an async function
     const info = await transporter.sendMail({
-      from: "ask@privacelimo.com",
+      from: "",
       to: formData.email,
       subject: "Your Payment Receipt (Privace Limousine Transportation)",
       html: receiptHtml,
     });
 
     const info2 = await transporter.sendMail({
-      from: "ask@privacelimo.com",
-      to: "ask@privacelimo.com",
+      from: "",
+      to: "",
       subject: `${formData.bookrefno} Payment Received (Privace Limousine Transportation)`, // Different subject for internal notification
       html: receiptHtml,
     });
@@ -384,8 +370,8 @@ let handleBooking = async (req, res) => {
 
     // Email content
     let mailOptions = {
-      from: "ask@privacelimo.com",
-      to: "ask@privacelimo.com",
+      from: "",
+      to: "",
       subject: "New Booking Request",
       text: `
           Booking Number: ${bookingNumber}
@@ -436,8 +422,8 @@ let handleContact = async (req, res) => {
 
   // Email content
   let mailOptions = {
-    from: "ask@privacelimo.com",
-    to: "ask@privacelimo.com",
+    from: "",
+    to: "",
     subject: "Contact Form Query from (Privace Limousine Transportation",
     text: `
           Name: ${fullname}
