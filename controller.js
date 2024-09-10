@@ -70,7 +70,7 @@ let handlePayment = async (req, res) => {
         Name: `${formData.fullname} ${formData.lastname}`,
         Email: formData.email,
         // Phone: formData.phone,
-        Phone: `${formData.country_code} ${formData.phone}`,
+        Phone: `+${formData.country_code} ${formData.phone}`,
       },
     });
 
@@ -353,6 +353,7 @@ let handleBooking = async (req, res) => {
     flightno,
     noOfLuggage,
     noOfHours,
+    whatsappNumber,
     notesToDriver,
   } = req.body;
 
@@ -390,7 +391,7 @@ let handleBooking = async (req, res) => {
           Booking Number: ${bookingNumber}
           Name: ${fname} ${lname}
           Email: ${email}
-          Phone Number: ${countrycode} ${phoneno}
+          Phone Number: +${countrycode} ${phoneno}
           Booking Date: ${bookingdate}
           Booking Time: ${bookingtime}
           Limousine Service: ${limousineservice}
@@ -401,6 +402,7 @@ let handleBooking = async (req, res) => {
           Flight No.: ${flightno}
           No. of Luggage: ${noOfLuggage}
           No. of Hours: ${noOfHours}
+          Whatsapp Number: ${whatsappNumber}
           Notes to Driver: ${notesToDriver}
         `,
     };
